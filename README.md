@@ -21,3 +21,5 @@ Future App updates:
 -Multiple User capability
 -BMI Tracking
 -Fitness plans and tracking
+
+Project 2 Created by: Israel, Jo, Vanessa, Will.
