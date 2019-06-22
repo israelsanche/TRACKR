@@ -17,9 +17,9 @@ Database: Sequel and Heroku
 
 Future App updates:
 
--Login ability
--Multiple User capability
--BMI Tracking
--Fitness plans and tracking
+    -Login ability
+    -Multiple User capability
+    -BMI Tracking
+    -Fitness plans and tracking
 
 Project 2 Created by: Israel, Jo, Vanessa, Will.
