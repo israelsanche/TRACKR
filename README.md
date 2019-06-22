@@ -1,6 +1,7 @@
 # TRACKR
 Nutrition Tracking
 App to choose your nutrition plan and track daily intake.
+
     -User will choose goals
     -User will select types of foods they prefer
     -App will suggest plan
