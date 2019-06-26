@@ -12,10 +12,11 @@ body {
     line-height: 1.7em;
     color: #7f8c8d;
     font-size: 13px;
-    font-family: 'Monoton', cursive;
+    font-family: 'Monoton', cursive; 
+}
 
-    
-    
+.content-head {
+    font-family: 'Slabo 27px', serif;
 }
 
 h1,
@@ -203,7 +204,7 @@ a.pure-button-primary {
 /* This is the class used for the main content headers (<h2>) */
 .content-head {
     font-weight: 400;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     letter-spacing: 0.1em;
     margin: 2em 0 1em;
 }
