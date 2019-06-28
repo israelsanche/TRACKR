@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "password",
-    "database": "TRACKR",
+    "database": "TRACKRdb",
     "host": "localhost",
     "dialect": "mysql"
   },
