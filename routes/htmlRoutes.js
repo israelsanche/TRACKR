@@ -1,4 +1,11 @@
 var db = require("../models");
+var express = require("express");
+var htmlRouter = express.Router();
+var path = require("path");
+
+htmlRouter.get('/index', function (req, res) {
+  res.sendFile("index.html", {root: path.join('./public')});
+});
 
 module.exports = function(app) {
   // Load index page
@@ -25,3 +32,5 @@ module.exports = function(app) {
     res.render("404");
   });
 };
+
+module.exports = htmlRouter;
