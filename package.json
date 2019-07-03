@@ -12,11 +12,19 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.0.0",
-    "express": "^4.17.0",
+    "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
+    "handlebar": "^1.0.0",
     "mysql2": "^1.6.5",
+<<<<<<< HEAD
+    "path": "^0.12.7",
+    "require": "^2.4.20",
+    "routes": "^2.1.0",
+    "sequelize": "^5.8.6"
+=======
     "sequelize": "^5.8.6",
     "unirest": "^0.6.0"
+>>>>>>> 05fad0aed6f9fe810006d06bab8d18b7a7d62771
   },
   "devDependencies": {
     "chai": "^4.2.0",
