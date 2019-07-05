@@ -11,11 +11,18 @@ module.exports = function (app) {
       });
     });
   });
-
+  // routers gets for the pages functions.
+  app.get("/about", function (req, res) {
+    res.render("about");
+  });
   app.get("/signup", function (req, res) {
-
     res.render("signup");
-
+  });
+  app.get("/getstarted", function (req, res) {
+    res.render("getstarted");
+  });
+  app.get("/tracker", function (req, res) {
+    res.render("tracker");
   });
   // Load example page and pass in an example by id
   app.get("/example/:id", function (req, res) {
