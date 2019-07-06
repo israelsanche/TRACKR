@@ -30,7 +30,7 @@ module.exports = function(app) {
 // =============================================================
 
 // Requiring our models
-var db = require("../models");
+var db = require("../modelsapi");
 
 // Routes
 // =============================================================
