@@ -1,4 +1,4 @@
-
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A layout example that shows off a responsive product landing page.">
@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <link rel="stylesheet" href="css/layouts/marketing.css">
+</head>
 
-
-
+<body>
 
     <div class="header">
         <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
@@ -31,13 +31,13 @@
         <div class="splash">
             <div>
                 <form class="pure-form">
-                    <input type="text" placeholder="Search Food to Track!" class="food-search pure-input-rounded"
+                    <input type="text" placeholder="Search Food to Track!" id="food-search" class="pure-input-rounded"
                         style="text-align: center">
-                    <button type="submit" class="pure-button">Search</button>
+                    <a type="text" class="pure-button" id="foodsubmit" href=>Search</a>
                 </form>
             </div>
 
-            <table class="result-table pure-table pure-table-horizontal" align="center" style="font-display: black">
+            <table class="result-table pure-table pure-table-horizontal" align="center" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>Result#</th>
@@ -51,50 +51,50 @@
                 </thead>
 
                 <tbody>
-                    <tr id="result-1">
+                    <tr id="result1">
                         <td>1</td>
-                        <td id="food-1"></td>
-                        <td id="calories-1"></td>
-                        <td id="carbs-1"></td>
-                        <td id="fat-1"></td>
-                        <td id="protein-1"></td>
+                        <td id="food1"></td>
+                        <td id="calories1"></td>
+                        <td id="carbs1"></td>
+                        <td id="fat1"></td>
+                        <td id="protein1"></td>
                     </tr>
 
-                    <tr id="result-2">
+                    <tr id="result2">
                         <td>2</td>
-                        <td id="food-2"></td>
-                        <td id="calories-2"></td>
-                        <td id="carbs-2"></td>
-                        <td id="fat-2"></td>
-                        <td id="protein-2"></td>
+                        <td id="food2"></td>
+                        <td id="calories2"></td>
+                        <td id="carbs2"></td>
+                        <td id="fat2"></td>
+                        <td id="protein2"></td>
                     </tr>
 
-                    <tr id="result-3">
+                    <tr id="result3">
                         <td>3</td>
-                        <td id="food-3"></td>
-                        <td id="calories-3"></td>
-                        <td id="carbs-3"></td>
-                        <td id="fat-3"></td>
-                        <td id="protein-3"></td>
+                        <td id="food3"></td>
+                        <td id="calories3"></td>
+                        <td id="carbs3"></td>
+                        <td id="fat3"></td>
+                        <td id="protein3"></td>
                     </tr>
 
-                    <tr id="result-4">
+                    {{!-- <tr id="result4">
                         <td>4</td>
-                        <td id="food-4"></td>
-                        <td id="calories-4"></td>
-                        <td id="carbs-4"></td>
-                        <td id="fat-4"></td>
-                        <td id="protein-4"></td>
+                        <td id="food4"></td>
+                        <td id="calories4"></td>
+                        <td id="carbs4"></td>
+                        <td id="fat4"></td>
+                        <td id="protein4"></td>
                     </tr>
 
-                    <tr id="result-5">
+                    <tr id="result5">
                         <td>5</td>
-                        <td id="food-5"></td>
-                        <td id="calories-5"></td>
-                        <td id="carbs-5"></td>
-                        <td id="fat-5"></td>
-                        <td id="protein-5"></td>
-                    </tr>
+                        <td id="food5"></td>
+                        <td id="calories5"></td>
+                        <td id="carbs5"></td>
+                        <td id="fat5"></td>
+                        <td id="protein5"></td>
+                    </tr> --}}
                 </tbody>
             </table>
             <div>
@@ -108,44 +108,115 @@
 
     </div>
 
-    <div class="content-wrapper">
-        <div class="content">
-            <h2 class="content-head is-center">About Us</h2>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        //on click for food search
+        $("#foodsubmit").on("click", function () {
+            event.preventDefault();
+            nutritionix();
+        })
+        $(document).keyup(function (e) {
+            if ($("#foodsearch").is(":focus") && (e.keyCode == 13)) {
+                nutritionix();
+            }
+        });
+
+
+        function nutritionix() {
+            var searchFood = $("#food-search").val();
+            var url = "https://nutritionix-api.p.rapidapi.com/v1_1/search/" + searchFood + "?fields=item_name%2Citem_id%2Cbrand_name%2Cnf_calories%2Cnf_total_fat%2Cnf_total_carbohydrate%2Cnf_protein"
+            $.ajax({
+                url: url,
+                method: "GET",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-RapidAPI-Host', 'nutritionix-api.p.rapidapi.com');
+                    xhr.setRequestHeader('X-RapidAPI-Key', '9aa87aedcbmsh547e179979dfd3cp155077jsn703e45a2e9c9');
+
+                },
+            }).then(function (result) {
+                console.log(result.hits)
+                // Result 1:
+                var nameOne = result.hits[0].fields.item_name;
+                var caloriesOne = result.hits[0].fields.nf_calories;
+                var fatOne = result.hits[0].fields.nf_total_fat;
+                var carbsOne = result.hits[0].fields.nf_total_carbohydrate;
+                var proteinOne = result.hits[0].fields.nf_protein
+
+                // Result 2:
+                var nameTwo = result.hits[1].fields.item_name;
+                var caloriesTwo = result.hits[1].fields.nf_calories;
+                var fatTwo = result.hits[1].fields.nf_total_fat;
+                var carbsTwo = result.hits[1].fields.nf_total_carbohydrate;
+                var proteinTwo = result.hits[1].fields.nf_protein
+                // Result 3:
+                var nameThree = result.hits[2].fields.item_name;
+                var caloriesThree = result.hits[2].fields.nf_calories;
+                var fatThree = result.hits[2].fields.nf_total_fat;
+                var carbsThree = result.hits[2].fields.nf_total_carbohydrate;
+                var proteinThree = result.hits[2].fields.nf_protein
+                // Result 4:
+                var nameFour = result.hits[3].fields.item_name;
+                var caloriesFour = result.hits[3].fields.nf_calories;
+                var fatFour = result.hits[3].fields.nf_total_fat;
+                var carbsFour = result.hits[3].fields.nf_total_carbohydrate;
+                var proteinFour = result.hits[3].fields.nf_protein
+                // Result 5:
+                var nameFive = result.hits[4].fields.item_name;
+                var caloriesFive = result.hits[4].fields.nf_calories;
+                var fatFive = result.hits[4].fields.nf_total_fat;
+                var carbsFive = result.hits[4].fields.nf_total_carbohydrate;
+                var proteinFive = result.hits[4].fields.nf_protein
+
+                console.log("Result 1: " + nameOne + "\nHas nutrition of: \n Calories: " + caloriesOne + "\n Fat: " + fatOne + "\n Carbs: " + carbsOne + "\n Protein: " + proteinOne)
+                console.log("Result 2: " + nameTwo + "\nHas nutrition of: \n Calories: " + caloriesTwo + "\n Fat: " + fatTwo + "\n Carbs: " + carbsTwo + "\n Protein: " + proteinTwo)
+                console.log("Result 3: " + nameThree + "\nHas nutrition of: \n Calories: " + caloriesThree + "\n Fat: " + fatThree + "\n Carbs: " + carbsThree + "\n Protein: " + proteinThree)
+                console.log("Result 4: " + nameFour + "\nHas nutrition of: \n Calories: " + caloriesFour + "\n Fat: " + fatFour + "\n Carbs: " + carbsFour + "\n Protein: " + proteinFour)
+                console.log("Result 5: " + nameFive + "\nHas nutrition of: \n Calories: " + caloriesFive + "\n Fat: " + fatFive + "\n Carbs: " + carbsFive + "\n Protein: " + proteinFive)
+
+                $("#food1").text(nameOne); $("#food2").text(nameTwo); $("#food3").text(nameThree); $("#food4").text(nameFour); $("#food5").text(nameFive);
+                $("#calories1").text(caloriesOne); $("#calories2").text(caloriesTwo); $("#calories3").text(caloriesThree); $("#calories4").text(caloriesFour); $("#calories5").text(caloriesFive);
+                $("#carbs1").text(carbsOne); $("#carbs2").text(carbsTwo); $("#carbs3").text(carbsThree); $("#carbs4").text(carbsFour); $("#carbs5").text(carbsFive);
+                $("#fat1").text(fatOne); $("#fat2").text(fatTwo); $("#fat3").text(fatThree); $("#fat4").text(fatFour); $("#fat5").text(fatFive);
+                $("#protein1").text(proteinOne); $("#protein2").text(proteinTwo); $("#protein3").text(proteinThree); $("#protein4").text(proteinFour); $("#protein5").text(proteinFive);
+
+            });
+
+        }
+
+        $("#result1").on("click", function () {
+            var chosenFood1 = $("#food1").text();
+            var chosenCalories1 = $("#calories1").text();
+            var chosenCarbs1 = $("#carbs1").text();
+            var chosenFat1 = $("#fat1").text();
+            var chosenProtein1 = $("#protein1").text();
+            console.log(chosenFood1);
+            alert("Successfully added " + chosenFood1 + " to your TRACKR!!");
+        })
+        $("#result2").on("click", function () {
+            var chosenFood2 = $("#food2").text();
+            var chosenCalories2 = $("#calories2").text();
+            var chosenCarbs2 = $("#carbs2").text();
+            var chosenFat2 = $("#fat2").text();
+            var chosenProtein2 = $("#protein2").text();
+            console.log(chosenFood2);
+            alert("Successfully added " + chosenFood2 + " to your TRACKR!!");
+        })
+        $("#result3").on("click", function () {
+            var chosenFood3 = $("#food3").text();
+            var chosenCalories3 = $("#calories3").text();
+            var chosenCarbs3 = $("#carbs3").text();
+            var chosenFat3 = $("#fat3").text();
+            var chosenProtein3 = $("#protein3").text();
+            console.log(chosenFood3);
+            alert("Successfully added " + chosenFood3 + " to your TRACKR!!");
+        })
 
 
 
 
-            <div class="content">
-                <h2 class="content-head is-center">Tracker is a nutritional tracking app where you can choose your
-                    nutrition plan and track your daily food consumption. You don’t need an expensive gym membership to
-                    stay fit.
+    </script>
+    {{!-- <script src="/API/ajax.js" type="text/javascript"></script> --}}
 
-                    The app can help you choose your goals and track your daily intake. Filters and search options help
-                    you narrow down your choices so that you can book the workout that’s just right for you.
-
-                    At Tracker, we focus on BMI tracking, Macros, total weekly calories count, suggested meal plans and
-                    much more. Because the easier we make it for you, the more likely you are to stay on track.
-                    .</h2>
-
-
-
-                <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
-
-                </div>
-
-            </div>
-
-            <div class="footer l-box is-center">
-                View the source of this layout to learn more. Made with love by the YUI Team.
-            </div>
-
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script type="text/javascript">
-            $("#result-table").hide();
-
-        </script>
-        <script src="/API/nutritionixapi.js" type="text/javascript"></script>
-
-
-
+</body>
