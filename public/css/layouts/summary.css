@@ -1,0 +1,80 @@
+/*
+* -- TABLET (AND UP) MEDIA QUERIES --
+* On tablets and other medium-sized devices, we want to customize some
+* of the mobile styles.
+*/
+@media (min-width: 48em) {
+
+  /* We increase the body font size */
+  body {
+      font-size: 16px;
+  }
+
+  /* We can align the menu header to the left, but float the
+  menu items to the right. */
+  .home-menu {
+      text-align: left;
+  }
+      .home-menu ul {
+          float: right;
+      }
+
+  /* We increase the height of the splash-container */
+/*    .splash-container {
+      height: 500px;
+  }*/
+
+  /* We decrease the width of the .splash, since we have more width
+  to work with */
+  .splash {
+      width: 50%;
+      height: 50%;
+  }
+
+  .splash-head {
+      font-size: 250%;
+  }
+
+
+  /* We remove the border-separator assigned to .l-box-lrg */
+  .l-box-lrg {
+      border: none;
+  }
+
+}
+
+/*
+* -- DESKTOP (AND UP) MEDIA QUERIES --
+* On desktops and other large devices, we want to over-ride some
+* of the mobile and tablet styles.
+*/
+@media (min-width: 78em) {
+  /* We increase the header font size even more */
+  .splash-head {
+      font-size: 300%;
+  }
+}
+
+
+#borderDemo {
+  background: #f7f4f1;
+  border: 25px double #011b36;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color:black;
+  padding: 1em 1.6em;
+  font-weight: 100;
+  border-radius: 10px;
+  line-height: 1em;
+    /* z-index: 1;
+    overflow: hidden; */
+    /* The following styles are required for the "scroll-over" effect */
+    width: 93%;
+    height: 88%;
+    top: 0;
+    left: 0;
+    position: fixed !important;
+  }
+
+  

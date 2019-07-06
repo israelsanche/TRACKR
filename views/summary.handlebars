@@ -1,0 +1,245 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A layout example that shows off a responsive product landing page.">
+    <title>Landing Page &ndash; Layout Examples &ndash; Pure</title>
+    <link href="https://fonts.googleapis.com/css?family=Monoton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="css/layouts/marketing.css">
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+            <a class="pure-menu-heading" href="">About</a>
+
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item pure-menu-selected"><a href="./index.html" class="pure-menu-link">Home</a>
+                </li>
+                <li class="pure-menu-item"><a href="./tracker" class="pure-menu-link">Track</a></li>
+                <li class="pure-menu-item"><a href="./signup.html" class="pure-menu-link">Sign Up</a></li>
+            </ul>
+        </div>
+    </div>
+
+<div class="splash-container">
+        <div class="splash" class="col-12">
+
+
+            <table class="result-table pure-table pure-table-horizontal" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Tracked Today:</th>
+                        <th>Food Description</th>
+                        <th>Calories</th>
+                        <th>Carbs</th>
+                        <th>Fat</th>
+                        <th>Carbs</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr id="totals">
+                        <td>Total: </td>
+                        <td id="food1"></td>
+                        <td id="calories1"></td>
+                        <td id="carbs1"></td>
+                        <td id="fat1"></td>
+                        <td id="protein1"></td>
+                    </tr>
+                    <tr id="result1">
+                        <td>-</td>
+                        <td id="food1"></td>
+                        <td id="calories1"></td>
+                        <td id="carbs1"></td>
+                        <td id="fat1"></td>
+                        <td id="protein1"></td>
+                    </tr>
+
+                    <tr id="result2">
+                        <td>-</td>
+                        <td id="food2"></td>
+                        <td id="calories2"></td>
+                        <td id="carbs2"></td>
+                        <td id="fat2"></td>
+                        <td id="protein2"></td>
+                    </tr>
+
+                    <tr id="result3">
+                        <td>-</td>
+                        <td id="food3"></td>
+                        <td id="calories3"></td>
+                        <td id="carbs3"></td>
+                        <td id="fat3"></td>
+                        <td id="protein3"></td>
+                    </tr>
+
+                    <tr id="result4">
+                        <td>-</td>
+                        <td id="food4"></td>
+                        <td id="calories4"></td>
+                        <td id="carbs4"></td>
+                        <td id="fat4"></td>
+                        <td id="protein4"></td>
+                    </tr>
+
+                    <tr id="result5">
+                        <td>-</td>
+                        <td id="food5"></td>
+                        <td id="calories5"></td>
+                        <td id="carbs5"></td>
+                        <td id="fat5"></td>
+                        <td id="protein5"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+       $(document).ready(function() {
+  // Getting a reference to the input field where user adds a new food
+  var $newItemInput = $("input.new-item");
+  // Our new Daily_Summary will go inside the foodContainer
+  var $foodContainer = $(".food-container");
+  // Adding event listeners for deleting, editing, and adding Daily_Summary
+  $(document).on("click", "button.delete", deletefood);
+  $(document).on("click", "button.complete", toggleComplete);
+  $(document).on("click", ".food-item", editfood);
+  $(document).on("keyup", ".food-item", finishEdit);
+  $(document).on("blur", ".food-item", cancelEdit);
+  $(document).on("submit", "#food-form", insertfood);
+
+  // Our initial Daily_Summary array
+  var Daily_Summary = [];
+
+  // Getting Daily_Summary from database when page loads
+  getDaily_Summary();
+
+  // This function resets the Daily_Summary displayed with new Daily_Summary from the database
+  function initializeRows() {
+    $foodContainer.empty();
+    var rowsToAdd = [];
+    for (var i = 0; i < Daily_Summary.length; i++) {
+      rowsToAdd.push(createNewRow(Daily_Summary[i]));
+    }
+    $foodContainer.prepend(rowsToAdd);
+  }
+
+  // This function grabs Daily_Summary from the database and updates the view
+  function getDaily_Summary() {
+    $.get("/api/Daily_Summary", function(data) {
+      Daily_Summary = data;
+      initializeRows();
+    });
+  }
+
+  // This function deletes a food when the user clicks the delete button
+  function deletefood(event) {
+    event.stopPropagation();
+    var id = $(this).data("id");
+    $.ajax({
+      method: "DELETE",
+      url: "/api/Daily_Summary/" + id
+    }).then(getDaily_Summary);
+  }
+
+  // This function handles showing the input box for a user to edit a food
+  function editfood() {
+    var currentfood = $(this).data("food");
+    $(this).children().hide();
+    $(this).children("input.edit").val(currentfood.text);
+    $(this).children("input.edit").show();
+    $(this).children("input.edit").focus();
+  }
+
+  // Toggles complete status
+  function toggleComplete(event) {
+    event.stopPropagation();
+    var food = $(this).parent().data("food");
+    food.complete = !food.complete;
+    updatefood(food);
+  }
+
+  // This function starts updating a food in the database if a user hits the "Enter Key"
+  // While in edit mode
+  function finishEdit(event) {
+    var updatedfood = $(this).data("food");
+    if (event.which === 13) {
+      updatedfood.text = $(this).children("input").val().trim();
+      $(this).blur();
+      updatefood(updatedfood);
+    }
+  }
+
+  // This function updates a food in our database
+  function updatefood(food) {
+    $.ajax({
+      method: "PUT",
+      url: "/api/Daily_Summary",
+      data: food
+    }).then(getDaily_Summary);
+  }
+
+  // This function is called whenever a food item is in edit mode and loses focus
+  // This cancels any edits being made
+  function cancelEdit() {
+    var currentfood = $(this).data("food");
+    if (currentfood) {
+      $(this).children().hide();
+      $(this).children("input.edit").val(currentfood.text);
+      $(this).children("span").show();
+      $(this).children("button").show();
+    }
+  }
+
+  // This function constructs a food-item row
+  function createNewRow(food) {
+    var $newInputRow = $(
+      [
+        "<li class='list-group-item food-item'>",
+        "<span>",
+        food.text,
+        "</span>",
+        "<input type='text' class='edit' style='display: none;'>",
+        "<button class='delete btn btn-danger'>x</button>",
+        "<button class='complete btn btn-primary'>✓</button>",
+        "</li>"
+      ].join("")
+    );
+
+    $newInputRow.find("button.delete").data("id", food.id);
+    $newInputRow.find("input.edit").css("display", "none");
+    $newInputRow.data("food", food);
+    if (food.complete) {
+      $newInputRow.find("span").css("text-decoration", "line-through");
+    }
+    return $newInputRow;
+  }
+
+  // This function inserts a new food into our database and then updates the view
+  function insertfood(event) {
+    event.preventDefault();
+    var food = {
+      text: $newItemInput.val().trim(),
+      complete: false
+    };
+
+    $.post("/api/Daily_Summary", food, getDaily_Summary);
+    $newItemInput.val("");
+  }
+});
+
+    </script>
+    {{!-- <script src="/API/ajax.js" type="text/javascript"></script> --}}
+
+</body>
