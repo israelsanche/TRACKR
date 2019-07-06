@@ -1,4 +1,4 @@
-var api = require("./config/nutritionixapi");
+var api = require("./API/nutritionixapi");
 
 
 api.nutritionix;
