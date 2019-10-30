@@ -21,7 +21,7 @@
     "require": "^2.4.20",
     "requirejs": "^2.3.6",
     "routes": "^2.1.0",
-    "sequelize": "^5.8.6"
+    "sequelize": "^5.15.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
